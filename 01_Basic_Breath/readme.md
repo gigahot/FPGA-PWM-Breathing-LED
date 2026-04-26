@@ -17,10 +17,10 @@ The logic of PWM dimming is simple: **"How long should the LED stay ON within on
 ### 2. 🎮Duty Cycle Controller (**repeat_cycle.v**)
 To create a breathing effect (fading from dark to bright and back), we need to dynamically change the duty value. I used an **Enable Signal (en)** from a parameterizable counter to trigger state transitions every $0.1$ seconds.
 To achieve the "bounce" between dark and bright, I introduced a tango **flag**:  
-  🚩**Reset/Start**: tango is initialized to 0.  
-  ⬆️**At** duty_zero: tango is set to 1 (Triggering an upward transition).  
-  ⬆️**At** duty_ten: tango is set to 0 (Triggering a downward transition).  
-* **Directional Logic**: When tango is 0, the sequence goes $10 \rightarrow 9 \rightarrow \dots \rightarrow 0$. When tango is 1, it reverses to $0 \rightarrow 1 \rightarrow \dots \rightarrow 10$.
+* 🚩**Reset/Start**: tango is initialized to 0.  
+* ⬆️**At** duty_zero: tango is set to 1 (Triggering an upward transition).  
+* ⬆️**At** duty_ten: tango is set to 0 (Triggering a downward transition).  
+* 💡**Directional Logic**: When tango is 0, the sequence goes $10 \rightarrow 9 \rightarrow \dots \rightarrow 0$. When tango is 1, it reverses to $0 \rightarrow 1 \rightarrow \dots \rightarrow 10$.
 
 ### 3. ⏱️Precision Timing (**up_cnt_pmtr.v**)
 The requirement was a full breathing cycle every **2 seconds**. I divided this into **20 state** changes (covering 11 distinct brightness levels from 100% down to 0% and back).
