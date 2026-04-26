@@ -32,21 +32,33 @@ Initially, I thought this would be **"a piece of cake"** after reviewing the lec
 
 ### The Failed Attempt with Clock Divider
 **Experimental Concept**: Initially, I referred to the "1/6 Clock Divider" principle from our lectures (where the signal toggles every 3 counts). Since the goal was a 2-second cycle (Fade-out to Fade-in), I planned to use a counter to toggle the signal every $50,000,000$ cycles (1.0s).
+
 **Encountered Issues**: However, the actual hardware results were not as expected. Significant flickering or jitter occurred near the peak brightness and darkness transitions (e.g., between $80\% \sim 70\%$ or $10\% \sim 20\%$), making the visual effect very unsmooth.
+
 **Root Cause Analysis**: Upon analysis, the primary issue was Clock Synchronization.
+
 **1. Signal Conflict**: The "Up-counter" used for duty cycle transitions (triggered every $0.1$s) and the "Clock Divider circuit" (triggered every $1.0$s) were running asynchronously.
+
 **2. Logic Glitch**: When the FSM attempted to transition to the next brightness level (e.g., from duty_one to duty_two), the asynchronous timing meant the divider had not yet toggled. This caused a logic conflict that forcibly pulled the signal back to duty_zero.
+
 **Conclusion**: This timing misalignment led to inconsistent circuit behavior. I realized that a simple clock divider cannot reliably handle multi-stage brightness transitions, leading me to abandon this approach.
 
 ### Considerations of the Enable Counter
 **Experimental Concept**: After moving on from the clock divider, I considered using an Enable Counter. The idea was to set up a 4-bit register count that increments whenever the 0.1s enable signal (en) triggers, driving the state transitions.
+
 **Encountered Challenges**: While simple, I realized this approach was somewhat "clumsy" and inflexible for complex requirements. Specifically, it struggled with scenarios like pwm_LED_02 or 03, where the sequence does not always start from a fixed 0% or 100% brightness.
+
 **The Reversal Problem**: Suppose the initial state is 50% brightness (duty_five). After fading down to 0%, how would a simple counter know to "reverse" and start incrementing back to 10%? A basic increment-only counter cannot handle this symmetrical "down-then-up" logic.
+
 **Conclusion**: To ensure the circuit could correctly perform a "Bright-Dark-Bright" cycle from any starting point, I realized I had to abandon this unidirectional logic.
 
 ### Final Solution: The Tango Flag Epiphany
 **The Epiphany**: While taking a shower one day, an elegant solution suddenly came to me: I could solve all the issues by simply implementing a flag named tango at the boundaries—duty_ten (Max) and duty_zero (Min).
+
 **Logic Operation**: When the state reaches duty_ten, tango is set to 0; when it hits duty_zero, tango is set to 1. For subsequent state transitions, the system simply checks the value of tango to decide whether to increment or decrement the brightness.
+
 **Key Advantages**: This method is both clever and universal. It doesn't rely on complex clock dividers, and regardless of where the initial reset state points, it correctly triggers a reversal at the boundaries, perfectly handling the "Fade-out to Fade-in" logic.
+
 **AI Coincidence**: Interestingly, when I later reviewed a previous suggestion from Gemini (which I had initially ignored to solve it myself), I realized its idea was identical to mine. I couldn't help but sigh, "My talent is no match for Gemini; I feel the gap between us."
+
 **Summary**: Although it feels like I'm on the verge of being replaced by AI, independently deriving the same logical architecture as an advanced model was a highly rewarding development experience.
