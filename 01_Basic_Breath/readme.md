@@ -10,7 +10,6 @@ First, let's talk about the **PWM module**. Internally, it features a counter (c
 The logic of PWM dimming is simple: **"How long should the LED stay ON within one cycle?"** - We compare the internal cnt with an external input duty.
 * If cnt < duty, the output is 1 (ON); otherwise, it's 0 (OFF).
 * As the duty value decreases, the number of "zeros" in a cycle increases, dimming the LED.
-
   🌕1111111111 ➡️ 100% Brightness
   🌓1111100000 ➡️ 50% Brightness
   🌑0000000000 ➡️ 0% (OFF)
