@@ -1,23 +1,23 @@
 # Phase 3: Mirror Wave LED (Symmetrical Breath)
 ## Project Overview
-In Phase 3, I explored Symmetrical Mapping to create a "Mirror Wave" effect. Instead of each LED having its own independent sequence, the LED array is divided into two mirrored halves. This results in a visual effect where the breathing pattern originates from the center and radiates outwards to both sides simultaneously.
+In Phase 3, I explored **Symmetrical Mapping** to create a "Mirror Wave" effect. Instead of each LED having its own independent sequence, the LED array is divided into two mirrored halves. This results in a visual effect where the breathing pattern originates from the center and radiates outwards to both sides simultaneously.
 
 ## Part I: Module & Logic Description
 ### 1. Resource Optimization through Mirroring
-In this version, I optimized the design by only instantiating 5 repeat_cycle modules (rp_c5 to rp_c9) to drive all 10 LEDs. By sharing the duty cycle data (cnt) between pairs of LEDs, I ensured perfect symmetry while reducing hardware logic usage.
+In this version, I optimized the design by only instantiating **5** repeat_cycle **modules** (rp_c5 to rp_c9) to drive all **10 LEDs**. By sharing the duty cycle data (cnt) between pairs of LEDs, I ensured perfect symmetry while reducing hardware logic usage.
 
 ### 2. Symmetrical PWM Mapping
 The core of the "Mirror" effect lies in how the duty inputs are assigned to the PWM modules. I mapped the 5 sequences to the 10 LEDs in a mirrored fashion:
 
-Center LEDs (led[4], led[5]): Highest brightness/lead phase (using cnt[9]).
+* Center LEDs (led[4], led[5]): Highest brightness/lead phase (using cnt[9]).
 
-Inner-Mid LEDs (led[3], led[6]): (using cnt[8]).
+* Inner-Mid LEDs (led[3], led[6]): (using cnt[8]).
 
-Outer-Mid LEDs (led[2], led[7]): (using cnt[7]).
+* Outer-Mid LEDs (led[2], led[7]): (using cnt[7]).
 
-Outer LEDs (led[1], led[8]): (using cnt[6]).
+* Outer LEDs (led[1], led[8]): (using cnt[6]).
 
-Edge LEDs (led[0], led[9]): Lowest brightness/lag phase (using cnt[5]).
+* Edge LEDs (led[0], led[9]): Lowest brightness/lag phase (using cnt[5]).
 
 Verilog
 // Example of Mirror Mapping in my code:  
