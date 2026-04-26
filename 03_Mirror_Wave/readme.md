@@ -20,9 +20,9 @@ Outer LEDs (led[1], led[8]): (using cnt[6]).
 Edge LEDs (led[0], led[9]): Lowest brightness/lag phase (using cnt[5]).
 
 Verilog
-// Example of Mirror Mapping in my code:
-PWM pwm9 (.duty(cnt[5]), .pwm(pwm_out[9])); // Edge
-PWM pwm0 (.duty(cnt[5]), .pwm(pwm_out[0])); // Edge
+// Example of Mirror Mapping in my code:  
+PWM pwm9 (.duty(cnt[5]), .pwm(pwm_out[9])); // Edge  
+PWM pwm0 (.duty(cnt[5]), .pwm(pwm_out[0])); // Edge  
 
 ## Part II: Challenges & Solutions
 ### 1. Logical Mapping Ingenuity
