@@ -9,10 +9,10 @@ The objective of this experiment is to implement a Pulse Width Modulation (PWM) 
 First, let's talk about the **PWM module**. Internally, it features a counter (cnt) that resets and starts over after reaching its maximum value. In this lab, I set the maximum to 9, meaning the full cycle period ($T$) is $10$ cycles ($9 + 1$).
 The logic of PWM dimming is simple: **"How long should the LED stay ON within one cycle?"** - We compare the internal cnt with an external input duty.
 * If cnt < duty, the output is 1 (ON); otherwise, it's 0 (OFF).
-* As the duty value decreases, the number of "zeros" in a cycle increases, dimming the LED.
-  🌕1111111111 ➡️ 100% Brightness
-  🌓1111100000 ➡️ 50% Brightness
-  🌑0000000000 ➡️ 0% (OFF)
+* As the duty value decreases, the number of "zeros" in a cycle increases, dimming the LED.  
+  🌕1111111111 ➡️ 100% Brightness  
+  🌓1111100000 ➡️ 50% Brightness  
+  🌑0000000000 ➡️ 0% (OFF)  
 
 ### 2. 🎮Duty Cycle Controller (**repeat_cycle.v**)
 To create a breathing effect (fading from dark to bright and back), we need to dynamically change the duty value. I used an **Enable Signal (en)** from a parameterizable counter to trigger state transitions every $0.1$ seconds.
