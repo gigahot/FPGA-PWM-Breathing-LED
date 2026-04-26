@@ -37,7 +37,7 @@ Initially, I thought this would be **"a piece of cake"** after reviewing the lec
 
 **Root Cause Analysis**: Upon analysis, the primary issue was Clock Synchronization.
 
-**1. Signal Conflict**: The "Up-counter" used for duty cycle transitions (triggered every $0.1$s) and the "Clock Divider circuit" (triggered every $1.0$s) were running asynchronously.
+**1. Signal Conflict**: The "Up-counter" used for duty cycle transitions (triggered every 0.1s) and the "Clock Divider circuit" (triggered every 1.0s) were running asynchronously.
 
 **2. Logic Glitch**: When the FSM attempted to transition to the next brightness level (e.g., from duty_one to duty_two), the asynchronous timing meant the divider had not yet toggled. This caused a logic conflict that forcibly pulled the signal back to duty_zero.
 
